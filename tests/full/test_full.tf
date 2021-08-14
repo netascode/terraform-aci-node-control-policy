@@ -14,35 +14,35 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  name      = "NC1"
+  dom       = true
+  telemetry = "netflow"
 }
 
-data "aci_rest" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest" "fabricNodeControl" {
+  dn = "uni/fabric/nodecontrol-${module.main.name}"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "fabricNodeControl" {
+  component = "fabricNodeControl"
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fvTenant.content.name
-    want        = "ABC"
+    got         = data.aci_rest.fabricNodeControl.content.name
+    want        = module.main.name
   }
 
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest.fvTenant.content.nameAlias
-    want        = "ALIAS"
+  equal "control" {
+    description = "control"
+    got         = data.aci_rest.fabricNodeControl.content.control
+    want        = "Dom"
   }
 
-  equal "descr" {
-    description = "descr"
-    got         = data.aci_rest.fvTenant.content.descr
-    want        = "DESCR"
+  equal "featureSel" {
+    description = "featureSel"
+    got         = data.aci_rest.fabricNodeControl.content.featureSel
+    want        = "netflow"
   }
 }

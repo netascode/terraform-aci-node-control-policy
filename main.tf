@@ -1,9 +1,9 @@
-resource "aci_rest" "fvTenant" {
-  dn         = "uni/tn-${var.name}"
-  class_name = "fvTenant"
+resource "aci_rest" "fabricNodeControl" {
+  dn         = "uni/fabric/nodecontrol-${var.name}"
+  class_name = "fabricNodeControl"
   content = {
-    name      = var.name
-    nameAlias = var.alias
-    descr     = var.description
+    name       = var.name
+    control    = var.dom == true ? "Dom" : ""
+    featureSel = var.telemetry
   }
 }

@@ -1,7 +1,7 @@
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_node_control_policy" {
+  source = "netascode/node-control-policy/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  name      = "NC1"
+  dom       = true
+  telemetry = "netflow"
 }
