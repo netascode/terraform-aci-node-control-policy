@@ -1,4 +1,4 @@
-resource "aci_rest" "fabricNodeControl" {
+resource "aci_rest_managed" "fabricNodeControl" {
   dn         = "uni/fabric/nodecontrol-${var.name}"
   class_name = "fabricNodeControl"
   content = {

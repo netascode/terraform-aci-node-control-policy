@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -17,7 +17,7 @@ module "main" {
   name = "NC1"
 }
 
-data "aci_rest" "fabricNodeControl" {
+data "aci_rest_managed" "fabricNodeControl" {
   dn = "uni/fabric/nodecontrol-${module.main.name}"
 
   depends_on = [module.main]
@@ -28,7 +28,7 @@ resource "test_assertions" "fabricNodeControl" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fabricNodeControl.content.name
+    got         = data.aci_rest_managed.fabricNodeControl.content.name
     want        = module.main.name
   }
 }
